@@ -1191,8 +1191,9 @@ static BOOL version124() {
         @"17.34.3": @"v17.34.3",
         @"17.33.2": @"v17.33.2"
     };
-    NSString *currentVersion = [YTVersionUtils appVersion];
-    NSString *versionMessage = deprecatedVersions[currentVersion];
+    Class YTVersionUtilsClass = %c(YTVersionUtils);
+    NSString *appVersion = [YTVersionUtilsClass performSelector:@selector(appVersion)];
+    NSString *versionMessage = deprecatedVersions[appVersion];
     if (versionMessage != nil) {
         NSString *alertMessage = [NSString stringWithFormat:@"The spoofer version %@ is deprecated. Please spoof to at least v18.35.4 or higher.", versionMessage];
         [[%c(GOOHUDManagerInternal) sharedInstance] showMessageMainThread:[%c(YTHUDMessage) messageWithText:alertMessage]];
