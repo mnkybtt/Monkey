@@ -41,59 +41,56 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %end
 
-// Restore Notifications Pivot Bar Tab - @arichornlover (Inspired by the YTLite/YouTubePlus version)
-%hook YTIPivotBarRenderer
-- (void)setItemsArray:(NSArray *)itemsArray {
-    %orig;
-    [self addNotificationsTabToRenderer];
-}
-- (void)addNotificationsTabToRenderer {
-    for (YTIPivotBarSupportedRenderers *renderer in self.itemsArray) {
-        if ([renderer.pivotBarItemRenderer.title stringWithFormattingRemoved].isEqualToString:@"Notifications") {
-            return;
-        }
+// Restore Notifications Pivot Bar Tab - @arichornlover (Inspired by the YTMusicUltimate version - @Dayanch96)
+%hook YTPivotBarView
+- (void)setRenderer:(YTIPivotBarRenderer *)renderer {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kShowNotificationsTab"]) {
+        YTIBrowseEndpoint *endPoint = [[%c(YTIBrowseEndpoint) alloc] init];
+        [endPoint setBrowseId:@"FEnotifications_inbox"];
+        YTICommand *command = [[%c(YTICommand) alloc] init];
+        [command setBrowseEndpoint:endPoint];
+
+        YTIPivotBarItemRenderer *itemBar = [[%c(YTIPivotBarItemRenderer) alloc] init];
+        [itemBar setPivotIdentifier:@"FEnotifications_inbox"];
+        
+        YTIIcon *selectedIcon = [[YTIIcon alloc] init];
+        selectedIcon.iconType = NOTIFICATIONS;
+        
+        YTIIcon *unselectedIcon = [[YTIIcon alloc] init];
+        unselectedIcon.iconType = NOTIFICATIONS_NONE;
+        
+        [itemBar setIcon:selectedIcon];
+        [itemBar setUnselectedIcon:unselectedIcon];
+        
+        [itemBar setNavigationEndpoint:command];
+
+        YTIFormattedString *formatString = [%c(YTIFormattedString) formattedStringWithString:@"Notifications"];
+        [itemBar setTitle:formatString];
+
+        YTIPivotBarSupportedRenderers *barSupport = [[%c(YTIPivotBarSupportedRenderers) alloc] init];
+        [barSupport setPivotBarItemRenderer:itemBar];
+
+        [renderer.itemsArray addObject:barSupport];
     }
-    YTIPivotBarItemRenderer *notificationsItemRenderer = [[YTIPivotBarItemRenderer alloc] init];
-    notificationsItemRenderer.pivotIdentifier = @"FEnotifications_inbox";
-    notificationsItemRenderer.targetId = @"pivot-notifications";
-    YTICommand *navigationEndpoint = [[YTICommand alloc] init];
-    navigationEndpoint.browseEndpoint.browseId = @"FEnotifications_inbox";
-    notificationsItemRenderer.navigationEndpoint = navigationEndpoint;
-    YTIFormattedString *title = [YTIFormattedString formattedStringWithString:@"Notifications"];
-    notificationsItemRenderer.title = title;
-    YTIAccessibilitySupportedDatas *accessibility = [[YTIAccessibilitySupportedDatas alloc] init];
-    YTIAccessibilityData *accessibilityData = [[YTIAccessibilityData alloc] init];
-    accessibilityData.label = @"Notifications";
-    accessibility.accessibilityData = accessibilityData;
-    notificationsItemRenderer.accessibility = accessibility;
-    YTIIcon *selectedIcon = [[YTIIcon alloc] init];
-    selectedIcon.iconType = eNOTIFICATIONS;
-    notificationsItemRenderer.icon = selectedIcon;
-    YTIIcon *unselectedIcon = [[YTIIcon alloc] init];
-    unselectedIcon.iconType = NOTIFICATIONS_NONE;
-    notificationsItemRenderer.icon = unselectedIcon;
-    YTIPivotBarSupportedRenderers *notificationsTab = [[YTIPivotBarSupportedRenderers alloc] init];
-    notificationsTab.pivotBarItemRenderer = notificationsItemRenderer;
-    NSMutableArray *updatedItemsArray = [self.itemsArray mutableCopy];
-    [updatedItemsArray addObject:notificationsTab];
-    self.itemsArray = [updatedItemsArray copy];
-    NSMutableArray *updatedTabItems = [self.tabItems mutableCopy];
-    [updatedTabItems addObject:notificationsTab];
-    self.tabItems = [updatedTabItems copy];
+    %orig(renderer);
 }
 %end
-%hook YTPivotBarItemView
-- (void)buttonTapped {
-    if ([self.hitTarget.rendererAccessibilityLabel isEqualToString:@"Notifications"]) {
-        YTICommand *command = [[YTICommand alloc] init];
-        command.browseEndpoint.browseId = @"FEnotifications_inbox";
-        [self executeCommand:command];
-    } else {
-        %orig;
+%hook YTBrowseViewController
+- (void)viewDidLoad {
+    %orig;
+    @try {
+        YTICommand *navEndpoint = [self valueForKey:@"_navEndpoint"];
+        if ([navEndpoint.browseEndpoint.browseId isEqualToString:@"FEnotifications_inbox"]) {
+            UIViewController *notificationsViewController = [[UIViewController alloc] init];
+            [self addChildViewController:notificationsViewController];
+            [notificationsViewController.view setFrame:self.view.bounds];
+            [self.view addSubview:notificationsViewController.view];
+            [self.view endEditing:YES];
+            [notificationsViewController didMoveToParentViewController:self];
+        }
+    } @catch (NSException *exception) {
+        NSLog(@"Cannot show notifications view controller: %@", exception.reason);
     }
-}
-- (void)executeCommand:(YTICommand *)command {
-    NSLog(@"Navigating to: %@", command.browseEndpoint.browseId);
 }
 %end
 
