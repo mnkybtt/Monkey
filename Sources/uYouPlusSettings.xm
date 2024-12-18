@@ -188,7 +188,7 @@ extern NSBundle *uYouPlusBundle();
     ];
     [sectionItems addObject:developers];
 
-# pragma mark - Copy/Import and Paste/Export Settings
+# pragma mark - Copy/Export and Paste/Import Settings
     YTSettingsSectionItem *copySettings = [%c(YTSettingsSectionItem)
         itemWithTitle:IS_ENABLED(kReplaceCopyandPasteButtons) ? LOC(@"EXPORT_SETTINGS") : LOC(@"COPY_SETTINGS")
         titleDescription:IS_ENABLED(kReplaceCopyandPasteButtons) ? LOC(@"EXPORT_SETTINGS_DESC") : LOC(@"COPY_SETTINGS_DESC")
@@ -250,6 +250,7 @@ extern NSBundle *uYouPlusBundle();
                 // Import Settings functionality
                 UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:@[@"public.text"] inMode:UIDocumentPickerModeImport];
                 documentPicker.allowsMultipleSelection = NO;
+                documentPicker.delegate = self;
                 [settingsViewController presentViewController:documentPicker animated:YES completion:nil];
                 return YES;
             } else {
@@ -1618,51 +1619,25 @@ NSString *cacheDescription = [NSString stringWithFormat:@"%@", GetCacheSize()];
 // File Manager (Import Settings .txt)
 - (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls {
     if (urls.count > 0) {
-        NSURL *fileURL = urls.firstObject;
-        NSString *fileContents = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:nil];
-        if (fileContents.length > 0) {
-            UIAlertController *confirmImportAlert = [UIAlertController alertControllerWithTitle:@"Confirm Import" 
-                                                                                      message:@"Do you want to import the settings from the selected file?" 
-                                                                               preferredStyle:UIAlertControllerStyleAlert];
-            [confirmImportAlert addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
-            [confirmImportAlert addAction:[UIAlertAction actionWithTitle:@"Import" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                NSDictionary *currentSettings = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
-                NSData *backupData = [NSKeyedArchiver archivedDataWithRootObject:currentSettings];
-                BOOL success = YES;
-                NSArray *lines = [fileContents componentsSeparatedByString:@"\n"];
-                for (NSString *line in lines) {
-                    NSArray *components = [line componentsSeparatedByString:@": "];
-                    if (components.count == 2) {
-                        NSString *key = components[0];
-                        NSString *value = components[1];
-                        @try {
-                            [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
-                        }
-                        @catch (NSException *exception) {
-                            success = NO;
-                            break;
-                        }
-                    }
-                }
-                if (success) {
-                    YTSettingsViewController *settingsViewController = [self valueForKey:@"_settingsViewControllerDelegate"];
-                    [settingsViewController reloadData];
-                } else {
-                    NSDictionary *backupSettings = [NSKeyedUnarchiver unarchiveObjectWithData:backupData];
-                    for (NSString *key in backupSettings) {
-                        [[NSUserDefaults standardUserDefaults] setObject:backupSettings[key] forKey:key];
-                    }
-                    UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Error" 
-                                                                                       message:@"Failed to import settings. Reverted to previous settings." 
-                                                                                preferredStyle:UIAlertControllerStyleAlert];
-                    [errorAlert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-                    YTSettingsViewController *settingsViewController = [self valueForKey:@"_settingsViewControllerDelegate"];
-                    [settingsViewController presentViewController:errorAlert animated:YES completion:nil];
-                }
-            }]];
-            YTSettingsViewController *settingsViewController = [self valueForKey:@"_settingsViewControllerDelegate"];
-            [settingsViewController presentViewController:confirmImportAlert animated:YES completion:nil];
+        NSURL *url = urls.firstObject;
+        NSError *error = nil;
+        NSString *settingsString = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
+        if (error) {
+            NSLog(@"Error reading file: %@", error.localizedDescription);
+            UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Failed to read the settings file." preferredStyle:UIAlertControllerStyleAlert];
+            [errorAlert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+            return;
         }
+        NSArray *lines = [settingsString componentsSeparatedByString:@"\n"];
+        for (NSString *line in lines) {
+            NSArray *components = [line componentsSeparatedByString:@": "];
+            if (components.count == 2) {
+                NSString *key = components[0];
+                NSString *value = components[1];
+                [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
+            }
+        }                 
+        [[%c(GOOHUDManagerInternal) sharedInstance] showMessageMainThread:[%c(YTHUDMessage) messageWithText:@"Settings imported"]];
     }
 }
 
