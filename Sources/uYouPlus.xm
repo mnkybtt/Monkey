@@ -41,16 +41,7 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %end
 
-#import "YTPivotBarRenderer.h"
-#import "YTIPivotBarSupportedRenderers.h"
-#import "YTIPivotBarItemRenderer.h"
-#import "YTIIcon.h"
-#import "YTIcon.h"
-#import "YTICommand.h"
-#import "YTIFormattedString.h"
-#import "YTIAccessibilitySupportedDatas.h"
-
-%hook YTPivotBarRenderer
+%hook YTIPivotBarRenderer
 - (void)setItemsArray:(NSArray *)itemsArray {
     %orig;
     [self addNotificationsTab];
