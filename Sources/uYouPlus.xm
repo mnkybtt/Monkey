@@ -41,6 +41,36 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %end
 
+%hook YTPivotBarRenderer
+- (void)setItemsArray:(NSArray *)itemsArray {
+    %orig;
+    [self addNotificationsTab];
+}
+- (void)addNotificationsTab {
+    for (YTIPivotBarSupportedRenderers *renderer in self.itemsArray) {
+        if ([renderer.title isEqualToString:@"Notifications"]) {
+            return;
+        }
+    }
+    YTIPivotBarSupportedRenderers *notificationsTab = [YTPivotBarRenderer pivotSupportedRenderersWithBrowseId:@"FEnotifications_inbox"
+                                                                                                       title:@"Notifications"
+                                                                                                    iconType:NOTIFICATIONS_NONE];
+    YTIIcon *selectedIcon = [%c(YTIIcon) new];
+    selectedIcon.iconType = NOTIFICATIONS;
+    [notificationsTab setValue:selectedIcon forKey:@"selectedIcon"];
+    
+    YTIIcon *unselectedIcon = [%c(YTIIcon) new];
+    unselectedIcon.iconType = NOTIFICATIONS_NONE;
+    [notificationsTab setValue:unselectedIcon forKey:@"unselectedIcon"];
+
+    [notificationsTab setValue:[UIColor whiteColor] forKey:@"textColor"];
+
+    NSMutableArray *updatedItemsArray = [self.itemsArray mutableCopy];
+    [updatedItemsArray addObject:notificationsTab];
+    self.itemsArray = [updatedItemsArray copy];
+}
+%end
+
 // UPDATED VERSION
 // Hide the (Connect / Share / Remix / Thanks / Download / Clip / Save / Report) Buttons under the Video Player - 17.33.2 and up - @PoomSmart (inspired by @arichornlover) - METHOD BROKE Server-Side on May 14th 2024
 static BOOL findCell(ASNodeController *nodeController, NSArray <NSString *> *identifiers) {
