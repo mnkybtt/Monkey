@@ -41,6 +41,15 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %end
 
+#import "YTPivotBarRenderer.h"
+#import "YTIPivotBarSupportedRenderers.h"
+#import "YTIPivotBarItemRenderer.h"
+#import "YTIIcon.h"
+#import "YTIcon.h"
+#import "YTICommand.h"
+#import "YTIFormattedString.h"
+#import "YTIAccessibilitySupportedDatas.h"
+
 %hook YTPivotBarRenderer
 - (void)setItemsArray:(NSArray *)itemsArray {
     %orig;
@@ -48,26 +57,47 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 - (void)addNotificationsTab {
     for (YTIPivotBarSupportedRenderers *renderer in self.itemsArray) {
-        if ([renderer.title isEqualToString:@"Notifications"]) {
+        if ([renderer.pivotBarItemRenderer.title.runs.firstObject.text isEqualToString:@"Notifications"]) {
             return;
         }
     }
-    YTIPivotBarSupportedRenderers *notificationsTab = [YTPivotBarRenderer pivotSupportedRenderersWithBrowseId:@"FEnotifications_inbox"
-                                                                                                       title:@"Notifications"
-                                                                                                    iconType:NOTIFICATIONS_NONE];
-    YTIIcon *selectedIcon = [%c(YTIIcon) new];
+    YTIPivotBarItemRenderer *notificationsItemRenderer = [[YTIPivotBarItemRenderer alloc] init];
+    notificationsItemRenderer.pivotIdentifier = @"FEnotifications_inbox";
+    notificationsItemRenderer.targetId = @"pivot-notifications";
+    YTICommand *navigationEndpoint = [[YTICommand alloc] init];
+    navigationEndpoint.browseEndpoint.browseId = @"FEnotifications_inbox";
+    notificationsItemRenderer.navigationEndpoint = navigationEndpoint;
+    YTIFormattedString *title = [[YTIFormattedString alloc] init];
+    title.runs = @[[[YTIFormattedString_Runs alloc] initWithText:@"Notifications"]];
+    notificationsItemRenderer.title = title;
+    YTIAccessibilitySupportedDatas *accessibility = [[YTIAccessibilitySupportedDatas alloc] init];
+    accessibility.accessibilityData.label = @"Notifications";
+    notificationsItemRenderer.accessibility = accessibility;
+    YTIIcon *selectedIcon = [[YTIIcon alloc] init];
     selectedIcon.iconType = NOTIFICATIONS;
-    [notificationsTab setValue:selectedIcon forKey:@"selectedIcon"];
-    
-    YTIIcon *unselectedIcon = [%c(YTIIcon) new];
+    notificationsItemRenderer.icon = selectedIcon;
+    YTIIcon *unselectedIcon = [[YTIIcon alloc] init];
     unselectedIcon.iconType = NOTIFICATIONS_NONE;
-    [notificationsTab setValue:unselectedIcon forKey:@"unselectedIcon"];
-
-    [notificationsTab setValue:[UIColor whiteColor] forKey:@"textColor"];
-
+    notificationsItemRenderer.icon = unselectedIcon;
+    YTIPivotBarSupportedRenderers *notificationsTab = [[YTIPivotBarSupportedRenderers alloc] init];
+    notificationsTab.pivotBarItemRenderer = notificationsItemRenderer;
     NSMutableArray *updatedItemsArray = [self.itemsArray mutableCopy];
     [updatedItemsArray addObject:notificationsTab];
     self.itemsArray = [updatedItemsArray copy];
+    NSMutableArray *updatedTabItems = [self.tabItems mutableCopy];
+    [updatedTabItems addObject:notificationsTab];
+    self.tabItems = [updatedTabItems copy];
+}
+%end
+%hook YTPivotBarItemView
+- (void)buttonTapped {
+    if ([self.navigationButton.accessibilityLabel isEqualToString:@"Notifications"]) {
+        YTICommand *command = [[YTICommand alloc] init];
+        command.browseEndpoint.browseId = @"FEnotifications_inbox";
+        [command execute];
+    } else {
+        %orig;
+    }
 }
 %end
 
