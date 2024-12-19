@@ -60,7 +60,7 @@ NSBundle *tweakBundle = uYouPlusBundle();
 
         YTIIcon *unselectedIcon = itemBar.icon;
         if (unselectedIcon) {
-            selectedIcon.iconType = NOTIFICATIONS_NONE;
+            unselectedIcon.iconType = NOTIFICATIONS_NONE;
         }
 
         [itemBar setValue:unselectedIcon forKey:@"unselectedIcon"];     
