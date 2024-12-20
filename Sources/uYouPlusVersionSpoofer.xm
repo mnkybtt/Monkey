@@ -809,332 +809,546 @@ static BOOL version124() {
 
 %group gVersion71
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.34.5"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.34.5";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion72
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.33.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.33.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion73
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.33.2"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.33.2";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion74
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.32.2"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.32.2";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion75
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.31.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.31.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion76
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.30.7"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.30.7";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion77
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.30.6"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.30.6";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion78
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.29.1"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.29.1";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion79
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.28.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.28.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion80
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.27.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.27.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion81
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.25.1"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.25.1";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion82
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.23.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.23.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion83
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.22.9"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.22.9";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion84
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.21.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.21.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion85
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.20.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.20.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion86
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.19.1"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.19.1";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion87
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.18.2"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.18.2";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion88
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.17.2"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.17.2";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion89
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.16.2"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.16.2";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion90
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.15.1"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.15.1";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion91
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.14.1"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.14.1";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion92
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.13.4"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.13.4";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion93
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.12.2"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.12.2";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion94
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.11.2"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.11.2";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion95
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.10.1"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.10.1";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion96
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.09.4"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.09.4";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion97
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.08.1"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.08.1";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion98
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.07.5"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.07.5";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion99
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.05.2"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.05.2";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion100
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.04.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.04.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion101
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.03.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.03.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion102
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.02.03"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.02.03";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion103
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.01.6"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.01.6";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion104
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.01.4"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.01.4";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion105
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"18.01.2"; }
++ (NSString *)appVersion {
+    NSString *version = @"18.01.2";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion106
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.49.6"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.49.6";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion107
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.49.4"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.49.4";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion108
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.46.4"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.46.4";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion109
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.45.1"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.45.1";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion110
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.44.4"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.44.4";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion111
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.43.1"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.43.1";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion112
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.42.7"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.42.7";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion113
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.42.6"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.42.6";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion114
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.41.2"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.41.2";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion115
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.40.5"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.40.5";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion116
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.39.4"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.39.4";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion117
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.38.10"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.38.10";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion118
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.38.9"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.38.9";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion119
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.37.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.37.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion120
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.36.4"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.36.4";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion121
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.36.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.36.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion122
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.35.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.35.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion123
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.34.3"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.34.3";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 %group gVersion124
 %hook YTVersionUtils
-+ (NSString *)appVersion { return @"17.33.2"; }
++ (NSString *)appVersion {
+    NSString *version = @"17.33.2";
+    showDeprecationAlert(version);
+    return version;
+}
 %end
 %end
 
 // App Version Spoofer Deprecation Notifier (currently deprecated - v17.33.2-v18.34.5)
-%hook YTAppDelegate
-- (void)applicationDidFinishLaunching:(id)application {
-    %orig;
+void showDeprecationAlert(NSString *version) {
     NSDictionary *deprecatedVersions = @{
         @"18.34.5": @"v18.34.5",
         @"18.33.3": @"v18.33.3",
@@ -1191,15 +1405,12 @@ static BOOL version124() {
         @"17.34.3": @"v17.34.3",
         @"17.33.2": @"v17.33.2"
     };
-    Class YTVersionUtilsClass = %c(YTVersionUtils);
-    NSString *appVersion = [YTVersionUtilsClass performSelector:@selector(appVersion)];
-    NSString *versionMessage = deprecatedVersions[appVersion];
+    NSString *versionMessage = deprecatedVersions[version];
     if (versionMessage != nil) {
         NSString *alertMessage = [NSString stringWithFormat:@"The spoofer version %@ is deprecated. Please spoof to at least v18.35.4 or higher.", versionMessage];
         [[%c(GOOHUDManagerInternal) sharedInstance] showMessageMainThread:[%c(YTHUDMessage) messageWithText:alertMessage]];
     }
 }
-%end
 //
 
 # pragma mark - ctor
