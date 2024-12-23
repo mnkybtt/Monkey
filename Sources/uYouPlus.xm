@@ -26,7 +26,7 @@ NSBundle *tweakBundle = uYouPlusBundle();
     BOOL hideThanksButton = IS_ENABLED(@"hideThanksButton_enabled");
     BOOL hideSaveToPlaylistButton = IS_ENABLED(@"hideSaveToPlaylistButton_enabled");
     BOOL hideReportButton = IS_ENABLED(@"hideReportButton_enabled");
-    NSMutableArray *visibleSubviews = [NSMutableArray array];
+
     for (UIView *subview in self.subviews) {
         if ([subview.accessibilityLabel isEqualToString:@"connect account"]) {
             subview.hidden = hideConnectButton;
@@ -36,17 +36,7 @@ NSBundle *tweakBundle = uYouPlusBundle();
             subview.hidden = hideSaveToPlaylistButton;
         } else if ([subview.accessibilityLabel isEqualToString:@"Report"]) {
             subview.hidden = hideReportButton;
-        } 
-        if (!subview.hidden) {
-            [visibleSubviews addObject:subview];
         }
-    }   
-    CGFloat y = 0;
-    for (UIView *subview in visibleSubviews) {
-        CGRect frame = subview.frame;
-        frame.origin.y = y;
-        subview.frame = frame;
-        y += frame.size.height;
     }
 }
 %end
