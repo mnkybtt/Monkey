@@ -42,12 +42,12 @@ NSBundle *tweakBundle = uYouPlusBundle();
 %end
 
 // Notifications Tab - @arichornlover & @dayanch96
-%hook YTPivotBarItemViewAccessibilityControl
+%hook YTPivotBarItemStyle
 - (UIImage *)pivotBarItemIconImageWithIconType:(int)type color:(UIColor *)color useNewIcons:(BOOL)isNew selected:(BOOL)isSelected {
     // Create image
     NSString *imageName = isSelected ? @"ic_notifications" : @"yt_outline_bell_24pt"; // selected = ic_notifications
     // Set our image if icon type is 1
-    return type == 1 ? [al imageNamed:imageName] : %orig;
+    return type == 1 ? [UIImage imageNamed:imageName] : %orig;
 }
 %end
 %hook YTPivotBarView
