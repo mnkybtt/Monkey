@@ -1598,6 +1598,7 @@ NSString *cacheDescription = [NSString stringWithFormat:@"%@", GetCacheSize()];
     SWITCH(LOC(@"STICK_NAVIGATION_BAR"), LOC(@"STICK_NAVIGATION_BAR_DESC"), kStickNavigationBar);
     SWITCH2(LOC(@"HIDE_ISPONSORBLOCK"), nil, kHideiSponsorBlockButton);
     SWITCH(LOC(@"HIDE_CHIP_BAR"), LOC(@"HIDE_CHIP_BAR_DESC"), kHideChipBar);
+    SWITCH(LOC(@"Notifications Tab (Experimental)"), LOC(@"Makes the Notifications Tab appear back onto the Pivot Bar, experimental: The Icon isn't rendering, this will eventually be fixed."), kShowNotificationsTab);
     SWITCH(LOC(@"HIDE_PLAY_NEXT_IN_QUEUE"), LOC(@"HIDE_PLAY_NEXT_IN_QUEUE_DESC"), kHidePlayNextInQueue);
     SWITCH2(LOC(@"HIDE_COMMUNITY_POSTS"), LOC(@"HIDE_COMMUNITY_POSTS_DESC"), kHideCommunityPosts);
     SWITCH2(LOC(@"HIDE_HEADER_LINKS_UNDER_PROFILE"), LOC(@"HIDE_HEADER_LINKS_UNDER_PROFILE_DESC"), kHideChannelHeaderLinks);
