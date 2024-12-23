@@ -381,6 +381,13 @@ static BOOL version124() {
     return IS_ENABLED(@"enableVersionSpoofer_enabled") && appVersionSpoofer() == 124;
 }
 
+// App Version Spoofer Deprecation Notifier (currently deprecated - v17.33.2-v18.34.5)
+void showDeprecationAlert(NSString *version) {
+    NSString *alertMessage = [NSString stringWithFormat:@"This spoofed version %@ is deprecated. Please spoof to at least v18.35.4 or higher.", version];
+    [[%c(GOOHUDManagerInternal) sharedInstance] showMessageMainThread:[%c(YTHUDMessage) messageWithText:alertMessage]];
+}
+//
+
 %group gVersion0
 %hook YTVersionUtils
 + (NSString *)appVersion { return @"19.49.3"; }
@@ -1346,72 +1353,6 @@ static BOOL version124() {
 }
 %end
 %end
-
-// App Version Spoofer Deprecation Notifier (currently deprecated - v17.33.2-v18.34.5)
-void showDeprecationAlert(NSString *version) {
-    NSDictionary *deprecatedVersions = @{
-        @"18.34.5": @"v18.34.5",
-        @"18.33.3": @"v18.33.3",
-        @"18.33.2": @"v18.33.2",
-        @"18.32.2": @"v18.32.2",
-        @"18.31.3": @"v18.31.3",
-        @"18.30.7": @"v18.30.7",
-        @"18.30.6": @"v18.30.6",
-        @"18.29.1": @"v18.29.1",
-        @"18.28.3": @"v18.28.3",
-        @"18.27.3": @"v18.27.3",
-        @"18.25.1": @"v18.25.1",
-        @"18.23.3": @"v18.23.3",
-        @"18.22.9": @"v18.22.9",
-        @"18.21.3": @"v18.21.3",
-        @"18.20.3": @"v18.20.3",
-        @"18.19.1": @"v18.19.1",
-        @"18.18.2": @"v18.18.2",
-        @"18.17.2": @"v18.17.2",
-        @"18.16.2": @"v18.16.2",
-        @"18.15.1": @"v18.15.1",
-        @"18.14.1": @"v18.14.1",
-        @"18.13.4": @"v18.13.4",
-        @"18.12.2": @"v18.12.2",
-        @"18.11.2": @"v18.11.2",
-        @"18.10.1": @"v18.10.1",
-        @"18.09.4": @"v18.09.4",
-        @"18.08.1": @"v18.08.1",
-        @"18.07.5": @"v18.07.5",
-        @"18.05.2": @"v18.05.2",
-        @"18.04.3": @"v18.04.3",
-        @"18.03.3": @"v18.03.3",
-        @"18.02.03": @"v18.02.03",
-        @"18.01.6": @"v18.01.6",
-        @"18.01.4": @"v18.01.4",
-        @"18.01.2": @"v18.01.2",
-        @"17.49.6": @"v17.49.6",
-        @"17.49.4": @"v17.49.4",
-        @"17.46.4": @"v17.46.4",
-        @"17.45.1": @"v17.45.1",
-        @"17.44.4": @"v17.44.4",
-        @"17.43.1": @"v17.43.1",
-        @"17.42.7": @"v17.42.7",
-        @"17.42.6": @"v17.42.6",
-        @"17.41.2": @"v17.41.2",
-        @"17.40.5": @"v17.40.5",
-        @"17.39.4": @"v17.39.4",
-        @"17.38.10": @"v17.38.10",
-        @"17.38.9": @"v17.38.9",
-        @"17.37.3": @"v17.37.3",
-        @"17.36.4": @"v17.36.4",
-        @"17.36.3": @"v17.36.3",
-        @"17.35.3": @"v17.35.3",
-        @"17.34.3": @"v17.34.3",
-        @"17.33.2": @"v17.33.2"
-    };
-    NSString *versionMessage = deprecatedVersions[version];
-    if (versionMessage != nil) {
-        NSString *alertMessage = [NSString stringWithFormat:@"The spoofer version %@ is deprecated. Please spoof to at least v18.35.4 or higher.", versionMessage];
-        [[%c(GOOHUDManagerInternal) sharedInstance] showMessageMainThread:[%c(YTHUDMessage) messageWithText:alertMessage]];
-    }
-}
-//
 
 # pragma mark - ctor
 %ctor {
