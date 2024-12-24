@@ -61,8 +61,10 @@ NSBundle *tweakBundle = uYouPlusBundle();
         [itemBar setPivotIdentifier:@"FEnotifications_inbox"];
 
         NSBundle *tweakBundle = uYouPlusBundle();
-        UIImage *selectedIconImage = [UIImage imageNamed:@"notifications_selected" inBundle:tweakBundle compatibleWithTraitCollection:nil];
-        UIImage *unselectedIconImage = [UIImage imageNamed:@"notifications_unselected" inBundle:tweakBundle compatibleWithTraitCollection:nil];
+        NSString *selectedIconPath = [tweakBundle pathForResource:@"notifications_selected" ofType:@"png" inDirectory:@"UI"];
+        UIImage *selectedIconImage = [UIImage imageWithContentsOfFile:selectedIconPath];
+        NSString *unselectedIconPath = [tweakBundle pathForResource:@"notifications_unselected" ofType:@"png" inDirectory:@"UI"];
+        UIImage *unselectedIconImage = [UIImage imageWithContentsOfFile:unselectedIconPath];
 
         YTQTMButton *selectedButton = [YTQTMButton barButtonWithImage:selectedIconImage accessibilityLabel:@"Notifications" accessibilityIdentifier:@"notifications_selected"];
         YTQTMButton *unselectedButton = [YTQTMButton barButtonWithImage:unselectedIconImage accessibilityLabel:@"Notifications" accessibilityIdentifier:@"notifications_unselected"];
