@@ -42,37 +42,42 @@ NSBundle *tweakBundle = uYouPlusBundle();
 %end
 
 // Notifications Tab - @arichornlover & @dayanch96
-%hook YTPivotBarItemStyle
-- (UIImage *)pivotBarItemIconImageWithIconType:(int)type color:(UIColor *)color useNewIcons:(BOOL)isNew selected:(BOOL)isSelected {
-    // Create image
-    NSString *imageName = isSelected ? @"ic_notifications" : @"yt_outline_bell_24pt"; // selected = ic_notifications
-    // Set our image if icon type is 1
-    return type == 1 ? [UIImage imageNamed:imageName] : %orig;
+%group gShowNotificationsTab
+%hook YTQTMButton
++ (instancetype)barButtonWithImage:(UIImage *)image accessibilityLabel:(NSString *)accessibilityLabel accessibilityIdentifier:(NSString *)accessibilityIdentifier {
+    YTQTMButton *button = [super barButtonWithImage:image accessibilityLabel:accessibilityLabel accessibilityIdentifier:accessibilityIdentifier];
+    return button;
 }
 %end
 %hook YTPivotBarView
 - (void)setRenderer:(YTIPivotBarRenderer *)renderer {
     @try {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"kShowNotificationsTab"]) {
-            YTIBrowseEndpoint *endPoint = [[%c(YTIBrowseEndpoint) alloc] init];
-            [endPoint setBrowseId:@"FEnotifications_inbox"];
-            YTICommand *command = [[%c(YTICommand) alloc] init];
-            [command setBrowseEndpoint:endPoint];
+        YTIBrowseEndpoint *endPoint = [[%c(YTIBrowseEndpoint) alloc] init];
+        [endPoint setBrowseId:@"FEnotifications_inbox"];
+        YTICommand *command = [[%c(YTICommand) alloc] init];
+        [command setBrowseEndpoint:endPoint];
 
-            YTIPivotBarItemRenderer *itemBar = [[%c(YTIPivotBarItemRenderer) alloc] init];
-            [itemBar setPivotIdentifier:@"FEnotifications_inbox"];
-            YTIIcon *icon = [itemBar icon];
-            [icon setIconType:NOTIFICATIONS];
-            [itemBar setNavigationEndpoint:command];
+        YTIPivotBarItemRenderer *itemBar = [[%c(YTIPivotBarItemRenderer) alloc] init];
+        [itemBar setPivotIdentifier:@"FEnotifications_inbox"];
 
-            YTIFormattedString *formatString = [%c(YTIFormattedString) formattedStringWithString:@"Notifications"];
-            [itemBar setTitle:formatString];
+        NSBundle *tweakBundle = uYouPlusBundle();
+        UIImage *selectedIconImage = [UIImage imageNamed:@"notifications_selected" inBundle:tweakBundle compatibleWithTraitCollection:nil];
+        UIImage *unselectedIconImage = [UIImage imageNamed:@"notifications_unselected" inBundle:tweakBundle compatibleWithTraitCollection:nil];
 
-            YTIPivotBarSupportedRenderers *barSupport = [[%c(YTIPivotBarSupportedRenderers) alloc] init];
-            [barSupport setPivotBarItemRenderer:itemBar];
+        YTQTMButton *selectedButton = [YTQTMButton barButtonWithImage:selectedIconImage accessibilityLabel:@"Notifications" accessibilityIdentifier:@"notifications_selected"];
+        YTQTMButton *unselectedButton = [YTQTMButton barButtonWithImage:unselectedIconImage accessibilityLabel:@"Notifications" accessibilityIdentifier:@"notifications_unselected"];
 
-            [renderer.itemsArray addObject:barSupport];
-        }
+        [itemBar setValue:selectedButton.imageView.image forKey:@"icon"];
+        [itemBar setValue:unselectedButton.imageView.image forKey:@"unselectedIcon"];
+
+        [itemBar setNavigationEndpoint:command];
+        YTIFormattedString *formatString = [%c(YTIFormattedString) formattedStringWithString:@"Notifications"];
+        [itemBar setTitle:formatString];
+
+        YTIPivotBarSupportedRenderers *barSupport = [[%c(YTIPivotBarSupportedRenderers) alloc] init];
+        [barSupport setPivotBarItemRenderer:itemBar];
+
+        [renderer.itemsArray addObject:barSupport];
     } @catch (NSException *exception) {
         NSLog(@"Error setting renderer: %@", exception.reason);
     }
