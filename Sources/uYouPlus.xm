@@ -43,15 +43,6 @@ NSBundle *tweakBundle = uYouPlusBundle();
 
 // Notifications Tab - @arichornlover & @dayanch96
 %group gShowNotificationsTab
-%hook YTQTMButton
-+ (YTQTMButton *)createBarButtonWithImage:(UIImage *)image accessibilityLabel:(NSString *)accessibilityLabel accessibilityIdentifier:(NSString *)accessibilityIdentifier {
-    YTQTMButton *button = [YTQTMButton buttonWithType:UIButtonTypeCustom];
-    [button setImage:image forState:UIControlStateNormal];
-    button.accessibilityLabel = accessibilityLabel;
-    button.accessibilityIdentifier = accessibilityIdentifier;
-    return button;
-}
-%end
 %hook YTPivotBarView
 - (void)setRenderer:(YTIPivotBarRenderer *)renderer {
     @try {
