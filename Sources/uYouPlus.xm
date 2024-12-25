@@ -43,6 +43,15 @@ NSBundle *tweakBundle = uYouPlusBundle();
 
 // Notifications Tab - @arichornlover & @dayanch96
 %group gShowNotificationsTab
+%hook YTQTMButton
++ (UIButton *)createBarButtonWithImage:(UIImage *)image accessibilityLabel:(NSString *)accessibilityLabel accessibilityIdentifier:(NSString *)accessibilityIdentifier {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setImage:image forState:UIControlStateNormal];
+    button.accessibilityLabel = accessibilityLabel;
+    button.accessibilityIdentifier = accessibilityIdentifier;
+    return button;
+}
+%end
 %hook YTPivotBarView
 - (void)setRenderer:(YTIPivotBarRenderer *)renderer {
     @try {
@@ -60,14 +69,14 @@ NSBundle *tweakBundle = uYouPlusBundle();
         NSString *unselectedIconPath = [tweakBundle pathForResource:@"notifications_unselected" ofType:@"png" inDirectory:@"UI"];
         UIImage *unselectedIconImage = [UIImage imageWithContentsOfFile:unselectedIconPath];
 
-        YTIIcon *selectedIcon = [[YTIIcon alloc] init];
-        [selectedIcon setImage:selectedIconImage];
+        UIButton *selectedButton = [self.class createBarButtonWithImage:selectedIconImage accessibilityLabel:@"Notifications" accessibilityIdentifier:@"notifications_selected"];
+        UIButton *unselectedButton = [self.class createBarButtonWithImage:unselectedIconImage accessibilityLabel:@"Notifications" accessibilityIdentifier:@"notifications_unselected"];
 
-        YTIIcon *unselectedIcon = [[YTIIcon alloc] init];
-        [unselectedIcon setImage:unselectedIconImage];
+        UIImageView *selectedIconView = [[UIImageView alloc] initWithImage:selectedIconImage];
+        UIImageView *unselectedIconView = [[UIImageView alloc] initWithImage:unselectedIconImage];
 
-        [itemBar setIcon:selectedIcon];
-        [itemBar setUnselectedIcon:unselectedIcon];
+        [itemBar setValue:selectedIconView.image forKey:@"icon"];
+        [itemBar setValue:unselectedIconView.image forKey:@"unselectedIcon"];
 
         [itemBar setNavigationEndpoint:command];
         YTIFormattedString *formatString = [%c(YTIFormattedString) formattedStringWithString:@"Notifications"];
