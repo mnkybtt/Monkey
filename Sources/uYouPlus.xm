@@ -83,6 +83,11 @@ NSBundle *tweakBundle = uYouPlusBundle();
         [barSupport setPivotBarItemRenderer:itemBar];
 
         [renderer.itemsArray addObject:barSupport];
+
+        YTBadgedView *badgedView = [[%c(YTBadgedView) alloc] init];
+        [badgedView setLabel:@"10" accessibilityLabel:@"unseen items"];
+        [badgedView updateColors]; [badgedView addBorderLayer];
+        [self setValue:badgedView forKey:@"pivotBarIndicator"];
     } @catch (NSException *exception) {
         NSLog(@"Error setting renderer: %@", exception.reason);
     }
