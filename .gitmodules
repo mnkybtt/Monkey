@@ -86,7 +86,7 @@
 	url = https://github.com/protocolbuffers/protobuf.git
 [submodule "Tweaks/YouLoop"]
 	path = Tweaks/YouLoop
-	url = https://github.com/bhackel/YouLoop.git
+	url = https://github.com/aricloverEXALT/YouLoop.git
 [submodule "Tweaks/YTIcons"]
 	path = Tweaks/YTIcons
 	url = https://github.com/PoomSmart/YTIcons
