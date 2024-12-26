@@ -69,11 +69,8 @@ NSBundle *tweakBundle = uYouPlusBundle();
         NSString *unselectedIconPath = [tweakBundle pathForResource:@"notifications_unselected" ofType:@"png" inDirectory:@"UI"];
         UIImage *unselectedIconImage = [UIImage imageWithContentsOfFile:unselectedIconPath];
 
-        UIButton *selectedButton = [self.class createBarButtonWithImage:selectedIconImage accessibilityLabel:@"Notifications" accessibilityIdentifier:@"notifications_selected"];
-        UIButton *unselectedButton = [self.class createBarButtonWithImage:unselectedIconImage accessibilityLabel:@"Notifications" accessibilityIdentifier:@"notifications_unselected"];
-
-        UIImageView *selectedIconView = [[UIImageView alloc] initWithImage:selectedIconImage];
-        UIImageView *unselectedIconView = [[UIImageView alloc] initWithImage:unselectedIconImage];
+        UIButton *selectedButton = createBarButtonWithImage(selectedIconImage, @"Notifications", @"notifications_selected");
+        UIButton *unselectedButton = createBarButtonWithImage(unselectedIconImage, @"Notifications", @"notifications_unselected");
 
         [itemBar setValue:selectedIconView.image forKey:@"icon"];
         [itemBar setValue:unselectedIconView.image forKey:@"unselectedIcon"];
