@@ -87,7 +87,6 @@
 [submodule "Tweaks/YouLoop"]
 	path = Tweaks/YouLoop
 	url = https://github.com/aricloverEXALT/YouLoop.git
-	branch = main
 [submodule "Tweaks/YTIcons"]
 	path = Tweaks/YTIcons
 	url = https://github.com/PoomSmart/YTIcons
