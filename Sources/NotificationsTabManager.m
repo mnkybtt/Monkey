@@ -17,25 +17,23 @@
     return sharedManager;
 }
 
-- (void)rearrangeNotificationsTabInPivotBar:(NSMutableArray *)pivotBarItems {
+- (void)rearrangeNotificationsTab {
     @try {
-        YTIPivotBarItemRenderer *notificationsItem = [[YTIPivotBarItemRenderer alloc] init];
-        [notificationsItem setPivotIdentifier:@"FEnotifications_inbox"];
-
-        YTIBrowseEndpoint *endPoint = [[YTIBrowseEndpoint alloc] init];
-        [endPoint setBrowseId:@"FEnotifications_inbox"];
-        YTICommand *command = [[YTICommand alloc] init];
-        [command setBrowseEndpoint:endPoint];
-        [notificationsItem setNavigationEndpoint:command];
-
-        YTIIcon *icon = [[YTIIcon alloc] init];
-        [icon setIconType:NOTIFICATIONS];
-        [notificationsItem setIcon:icon];
-
-        YTIFormattedString *title = [YTIFormattedString formattedStringWithString:@"Notifications"];
-        [notificationsItem setTitle:title];
-        [pivotBarItems insertObject:notificationsItem atIndex:4];
-
+        YTBrowseViewController *browseViewController = (YTBrowseViewController *)self.navigationController.topViewController;
+        YTPivotBarView *pivotBarView = [browseViewController valueForKey:@"pivotBarView"];
+        NSMutableArray *itemViews = [pivotBarView.itemViews mutableCopy];
+        YTPivotBarItemView *notificationsItem;
+        for (YTPivotBarItemView *itemView in itemViews) {
+            if ([itemView.renderer.pivotIdentifier isEqualToString:@"FEnotifications_inbox"]) {
+                notificationsItem = itemView;
+                break;
+            }
+        }
+        if (notificationsItem) {
+            [itemViews removeObject:notificationsItem];
+            [itemViews insertObject:notificationsItem atIndex:4];
+            [pivotBarView setValue:itemViews forKey:@"itemViews"];
+        }
     } @catch (NSException *exception) {
         NSLog(@"Error rearranging notifications tab: %@", exception.reason);
     }
