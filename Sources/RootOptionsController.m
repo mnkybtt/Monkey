@@ -198,7 +198,7 @@
         }
     }
     if (indexPath.section == 2 && IS_ENABLED(kShowNotificationsTab)) {
-        NotificationsTabManager *notificationsTabManager = [NotificationsTabManager sharedManager];
+        NotificationsTabController *notificationsTabManager = [NotificationsTabController sharedManager];
         NSMutableArray *pivotBarItems =
         [notificationsTabManager rearrangeNotificationsTabInPivotBar:pivotBarItems];
     }
