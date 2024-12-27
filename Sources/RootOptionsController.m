@@ -1,8 +1,8 @@
 #import "RootOptionsController.h"
 #import "ColourOptionsController.h"
 #import "ColourOptionsController2.h"
+#import "uYouPlus.h" 
 #import "NotificationsTabManager.h"
-#import "uYouPlus.h"
 #import <YouTubeHeader/YTBrowseViewController.h>
 #import <YouTubeHeader/YTIPivotBarRenderer.h>
 
@@ -128,12 +128,11 @@
     } else if (indexPath.section == 2) {
         cell.textLabel.text = @"Rearrange Notifications Tab";
         cell.imageView.image = [UIImage systemImageNamed:@"bell"];
-        BOOL isEnabled = IS_ENABLED(kShowNotificationsTab);
-        cell.textLabel.enabled = isEnabled;
-        cell.detailTextLabel.enabled = isEnabled;
-        cell.userInteractionEnabled = isEnabled;
-        cell.textLabel.textColor = isEnabled ? [UIColor labelColor] : [UIColor grayColor];
-        cell.imageView.tintColor = isEnabled ? [UIColor labelColor] : [UIColor grayColor];
+        cell.textLabel.enabled = YES;
+        cell.detailTextLabel.enabled = YES;
+        cell.userInteractionEnabled = YES;
+        cell.textLabel.textColor = [UIColor labelColor];
+        cell.imageView.tintColor = [UIColor labelColor];
     }
 
     [self applyColorSchemeForCell:cell];
@@ -205,14 +204,12 @@
             });
         }
     }
-    if (indexPath.section == 2 && IS_ENABLED(kShowNotificationsTab)) {
+    if (indexPath.section == 2) {
         YTBrowseViewController *browseViewController = (YTBrowseViewController *)self.navigationController.topViewController;
         YTIPivotBarRenderer *pivotBarRenderer = [browseViewController valueForKey:@"pivotBarRenderer"];
         NSMutableArray *pivotBarItems = [pivotBarRenderer.itemsArray mutableCopy];
-
         NotificationsTabManager *notificationsTabManager = [NotificationsTabManager sharedManager];
         [notificationsTabManager rearrangeNotificationsTabInPivotBar:pivotBarItems];
-
         [pivotBarRenderer setItemsArray:pivotBarItems];
     }
 }
