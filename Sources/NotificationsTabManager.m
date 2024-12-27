@@ -1,7 +1,11 @@
 #import "NotificationsTabManager.h"
 #import "uYouPlus.h"
-#import <YouTubeHeader/YTIPivotBarRenderer.h>
-#import <YouTubeHeader/YTIPivotBarSupportedRenderers.h>
+#import <YouTubeHeader/YTPivotBarRenderer.h>
+#import <YouTubeHeader/YTIPivotBarItemRenderer.h>
+#import <YouTubeHeader/YTIBrowseEndpoint.h>
+#import <YouTubeHeader/YTICommand.h>
+#import <YouTubeHeader/YTIIcon.h>
+#import <YouTubeHeader/YTIFormattedString.h>
 
 @implementation NotificationsTabManager
 
@@ -15,29 +19,26 @@
 }
 
 - (void)rearrangeNotificationsTabInPivotBar:(NSMutableArray *)pivotBarItems {
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:kShowNotificationsTab]) {
-        return;
-    }
+    @try {
+        YTIPivotBarItemRenderer *notificationsItem = [[YTIPivotBarItemRenderer alloc] init];
+        [notificationsItem setPivotIdentifier:@"FEnotifications_inbox"];
 
-    NSUInteger notificationsIndex = [pivotBarItems indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-        YTIPivotBarItemRenderer *item = (YTIPivotBarItemRenderer *)[obj pivotBarItemRenderer];
-        return [item.pivotIdentifier isEqualToString:@"FEnotifications_inbox"];
-    }];
+        YTIBrowseEndpoint *endPoint = [[YTIBrowseEndpoint alloc] init];
+        [endPoint setBrowseId:@"FEnotifications_inbox"];
+        YTICommand *command = [[YTICommand alloc] init];
+        [command setBrowseEndpoint:endPoint];
+        [notificationsItem setNavigationEndpoint:command];
 
-    if (notificationsIndex != NSNotFound) {
-        id notificationsItem = pivotBarItems[notificationsIndex];
-        [pivotBarItems removeObjectAtIndex:notificationsIndex];
-        // Insert the Notifications tab between Subscriptions and Library
-        NSUInteger libraryIndex = [pivotBarItems indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-            YTIPivotBarItemRenderer *item = (YTIPivotBarItemRenderer *)[obj pivotBarItemRenderer];
-            return [item.pivotIdentifier isEqualToString:@"FElibrary"];
-        }];
+        YTIIcon *icon = [[YTIIcon alloc] init];
+        [icon setIconType:NOTIFICATIONS];
+        [notificationsItem setIcon:icon];
 
-        if (libraryIndex != NSNotFound) {
-            [pivotBarItems insertObject:notificationsItem atIndex:libraryIndex];
-        } else {
-            [pivotBarItems addObject:notificationsItem]; // Fallback to add at the end
-        }
+        YTIFormattedString *title = [YTIFormattedString formattedStringWithString:@"Notifications"];
+        [notificationsItem setTitle:title];
+        [pivotBarItems insertObject:notificationsItem atIndex:4];
+
+    } @catch (NSException *exception) {
+        NSLog(@"Error rearranging notifications tab: %@", exception.reason);
     }
 }
 
