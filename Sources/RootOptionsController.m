@@ -73,7 +73,7 @@
     } else if (section == 1) {
         return 1;
     } else if (section == 2) {
-        return IS_ENABLED(kShowNotificationsTab) ? 1 : 0;
+        return [[NSUserDefaults standardUserDefaults] boolForKey:showNotificationsTab_enabled] ? 1 : 0;
     }
     return 0;
 }
