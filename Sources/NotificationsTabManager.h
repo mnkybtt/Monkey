@@ -3,6 +3,6 @@
 @interface NotificationsTabManager : NSObject
 
 + (instancetype)sharedManager;
-- (void)rearrangeNotificationsTabInPivotBar:(NSMutableArray *)pivotBarItems;
-
+- (void)rearrangeNotificationsTab;
+  
 @end
