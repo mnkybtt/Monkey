@@ -80,12 +80,17 @@ static UIButton *createBarButtonWithImage(UIImage *image, NSString *accessibilit
         [barSupport setPivotBarItemRenderer:itemBar];
 
         [renderer.itemsArray addObject:barSupport];
-
+/*
         YTBadgedView *badgedView = [[%c(YTBadgedView) alloc] init];
         [badgedView setLabel:@"10" accessibilityLabel:@"unseen items"];
         [badgedView updateColors]; 
         [badgedView addBorderLayer];
         [self setValue:badgedView forKey:@"pivotBarIndicator"];
+
+        YTCountView *countView = [[%c(YTCountView) alloc] init];
+        YTIUnseenContentCountRenderer *countRenderer = [[%c(YTIUnseenContentCountRenderer) alloc] init];
+        [countView setRenderer:countRenderer];
+*/
     } @catch (NSException *exception) {
         NSLog(@"Error setting renderer: %@", exception.reason);
     }
