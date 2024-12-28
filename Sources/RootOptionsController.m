@@ -1,10 +1,7 @@
 #import "RootOptionsController.h"
 #import "ColourOptionsController.h"
 #import "ColourOptionsController2.h"
-#import "uYouPlus.h"
 #import "NotificationsTabManager.h"
-#import <YouTubeHeader/YTBrowseViewController.h>
-#import <YouTubeHeader/YTIPivotBarRenderer.h>
 
 @interface RootOptionsController ()
 
@@ -67,18 +64,11 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 2;
-    } else if (section == 1) {
-        return 1;
-    } else if (section == 2) {
-        return 1;
-    }
-    return 0;
+    return (section == 0) ? 2 : 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -110,7 +100,7 @@
         }
         if (indexPath.row == 1) {
             cell.textLabel.text = @"Custom Tint Color";
-            cell.detailTextLabel.text = isPortrait && isPhone ? @"" : @"You must go to uYouEnhanced settings and have LowContrastMode enabled and then go to 'LowContrastMode Selector' and set it to 'Custom' for it to work.";
+            cell.detailTextLabel.text = isPortrait && isPhone ? @"" : @"You must go to uYouEnhanced settings and have LowContrastMode enabled and then go to 'LowContrastMode Selector' and set it to 'Custom'.";
             cell.imageView.image = [UIImage systemImageNamed:@"drop.fill"];
         }
     } else if (indexPath.section == 1) {
@@ -125,14 +115,6 @@
             cell.accessoryView = cache;
             cell.imageView.image = [UIImage systemImageNamed:@"trash"];
         }
-    } else if (indexPath.section == 2) {
-        cell.textLabel.text = @"Rearrange Notifications Tab";
-        cell.imageView.image = [UIImage systemImageNamed:@"bell"];
-        cell.textLabel.enabled = YES;
-        cell.detailTextLabel.enabled = YES;
-        cell.userInteractionEnabled = YES;
-        cell.textLabel.textColor = [UIColor labelColor];
-        cell.imageView.tintColor = [UIColor labelColor];
     }
 
     [self applyColorSchemeForCell:cell];
@@ -202,18 +184,6 @@
                     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
                 });
             });
-        }
-    }
-    if (indexPath.section == 2) {
-        @try {
-            YTBrowseViewController *browseViewController = (YTBrowseViewController *)self.navigationController.topViewController;
-            YTIPivotBarRenderer *pivotBarRenderer = [browseViewController valueForKey:@"pivotBarRenderer"];
-            NSMutableArray *pivotBarItems = [pivotBarRenderer.itemsArray mutableCopy];
-            NotificationsTabManager *notificationsTabManager = [NotificationsTabManager sharedManager];
-            [notificationsTabManager rearrangeNotificationsTabInPivotBar:pivotBarItems];
-            [pivotBarRenderer setItemsArray:pivotBarItems];
-        } @catch (NSException *exception) {
-            NSLog(@"Error rearranging notifications tab: %@", exception.reason);
         }
     }
 }
